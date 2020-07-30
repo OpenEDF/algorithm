@@ -8,7 +8,7 @@ typedef enum
     ERROR = -1
 }FunctionStatus;
 
-FunctionStatus Bupple_Sort(int *sequence, int length);
+FunctionStatus Bubble_Sort(int *sequence, int length);
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     start = clock();
     /*start execution function*/
 
-    Bupple_Sort(array, nums);
+    Bubble_Sort(array, nums);
 
     /*stop execution function*/
     stop = clock();
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 }
 
 /**
- * @name Bupple_Sort
+ * @name Bubble_Sort
  * @brief Sorts the elements of a sequence used by Bubble methods.
  * @param[in][out] sequence: A sequence containing the elements to be sorted.
  * @param[in] length: the number of elements for sequence.
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
  * TODO: None.
  * BUG: None.
 */
-FunctionStatus Bupple_Sort(int *sequence, int length)
+FunctionStatus Bubble_Sort(int *sequence, int length)
 {
     int temp;
     /* judge the sequence is valid ang the length*/
