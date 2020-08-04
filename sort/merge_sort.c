@@ -63,7 +63,11 @@ void Merge(int *sequence, int start, int middle, int end)
     int *l_array = (int *)malloc(l_size * sizeof(int));
     int *r_array = (int *)malloc(r_size * sizeof(int));
 
-    /* store the data to array */
+    /* check the l_array and r_array is valid */
+    if ((l_array == NULL) || (r_array == NULL))
+        return;
+
+    /* copies and store the data to array */
     for (i = 0; i < l_size; i++)
         l_array[i] = sequence[start + i];
     for (j = 0; j < r_size; j++)
@@ -81,17 +85,12 @@ void Merge(int *sequence, int start, int middle, int end)
     }
 
     /* restore array elements */
-    if(i < l_size)
-	{
-		while(i < l_size)
-            sequence[k++] = l_array[i++];
-    }
+	while(i < l_size)
+        sequence[k++] = l_array[i++];
 
-	if(j < r_size)
-	{
-		while(j < r_size)
-			sequence[k++] = r_array[j++];
-	}
+	while(j < r_size)
+		sequence[k++] = r_array[j++];
+
     /* free memory */
     free(l_array);
     free(r_array);
