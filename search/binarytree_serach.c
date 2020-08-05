@@ -13,6 +13,8 @@ struct node *Insert_to_node(node *Node, int key);
 void Inorder_tree(node *root);
 struct node *Find_minNode(node *root);
 struct node *Find_maxNode(node *root);
+struct node *Delete_Node(node *root, int key);
+void Destroy_Tree(node *root);
 
 /* main function */
 int main(int argc, char *argv[])
@@ -22,9 +24,12 @@ int main(int argc, char *argv[])
     printf("The root->key = %d\n", root->key);
 
     root = Insert_to_node(root, 10);
-    root = Insert_to_node(root, 5);
-    root = Insert_to_node(root, 2);
-    root = Insert_to_node(root, 20);
+    root = Insert_to_node(root, 14);
+    root = Insert_to_node(root, 3);
+    root = Insert_to_node(root, 1);
+    root = Insert_to_node(root, 6);
+    root = Insert_to_node(root, 7);
+    root = Insert_to_node(root, 4);
     printf("The root->key = %d\n", root->right->key);
 
     min = Find_minNode(root);
@@ -34,6 +39,15 @@ int main(int argc, char *argv[])
     printf("The root->key = %d\n", min->key);
 
     Inorder_tree(root);
+    printf("\n");
+    /* delete a node */
+    Delete_Node(root, 3);
+
+    Inorder_tree(root);
+
+    Destroy_Tree(root);
+
+    printf("The root->key = %d\n", root->key);
     return 0;
 }
 
@@ -137,4 +151,81 @@ struct node *Find_maxNode(node *root)
     return current;
 }
 
+/**
+ * @name Delete_Node
+ * @brief Delete the node from Binary Search tree.
+ * @param[in][out] root: The Binary tree root node.
+ * @param[in] key: The key of the node will to be deleted.
+ * @retval the struct pointer of delete the key node or NULL when not found key.
+*/
+struct node * Delete_Node(node *root, int key)
+{
+    /* check the root pointer is valid */
+    if (root == NULL) return root;
 
+    /* Find the node to be deleted */
+    if (key < root->key)
+        root->left = Delete_Node(root->left, key);
+    else if (key > root->key)
+        root->right = Delete_Node(root->right, key);
+    else
+    {
+        /* case 1: node has no any child, directly remove it. */
+        if ((root->left == NULL) && (root->right == NULL))
+        {
+            free(root);
+            return NULL;
+        }
+
+        /* case2: node has just one child, child will replace the node. */
+        if (root->left == NULL)
+        {
+            node *tmp = root->right;
+            free(root);
+            return tmp;
+        }
+        else if (root->right == NULL)
+        {
+            node *tmp = root->left;
+            free(root);
+            return tmp;
+        }
+        /* case3: node has two chindren, find successor for node and remove node. */
+        node *tmp = Find_minNode(root->right);
+        root->key = tmp->key;
+        root->right = Delete_Node(root->right, tmp->key);
+    }
+    return root;
+}
+/**
+ * @name Destroy_Tree
+ * @brief Destory the all nodes of a tree.
+ * @param[in][out] root: The Binary tree root node.
+ * @retval None.
+*/
+void Destroy_Tree(node *root)
+{
+    /* The condition of recursive exit. */
+    if (root != NULL)
+    {
+        /* recursive free left child */
+        Destroy_Tree(root->left);
+
+        /* recursive free left child */
+        Destroy_Tree(root->right);
+
+        /* free memory*/
+        free(root);
+    }
+    root = NULL;
+}
+
+/* result */
+/*
+The root->key = 8
+The root->key = 10
+The root->key = 1
+The root->key = 14
+1 ->3 ->4 ->6 ->7 ->8 ->10 ->14 ->
+1 ->4 ->6 ->7 ->8 ->10 ->14 ->
+*/
