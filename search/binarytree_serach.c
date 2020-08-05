@@ -206,18 +206,14 @@ struct node * Delete_Node(node *root, int key)
 void Destroy_Tree(node *root)
 {
     /* The condition of recursive exit. */
-    if (root != NULL)
-    {
-        /* recursive free left child */
-        Destroy_Tree(root->left);
+    if (root == NULL) return;
 
-        /* recursive free left child */
-        Destroy_Tree(root->right);
-
-        /* free memory*/
-        free(root);
-    }
-    root = NULL;
+    /* recursive free left child */
+    Destroy_Tree(root->left);
+    /* recursive free left child */
+    Destroy_Tree(root->right);
+    /* free memory*/
+    free(root);
 }
 
 /* result */
