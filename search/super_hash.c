@@ -16,6 +16,7 @@ typedef struct{
 
 /* define */
 #define LIST_INCREMENT  5
+#define SIZE_TEST 100
 #define SIZE 10
 #define HASH_FUNCTION(data) ((data) % SIZE)
 const int HASH_KEY[SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -27,17 +28,41 @@ void Remove_element(SET *hashtable, int key);
 int Search_element(SET *hashtable, int data);
 void Display_Hash(SET *hashtable, int size);
 void create_array(int *array, int size);
-
+void printArray(int *array, int size);
 /* main function */
 int main(int argc, char *argv[])
 {
     SET *HASH;
+    int index = 0;
+    int array[SIZE_TEST];
+
+    /* initalization */
+    printf("The Initalization function test.\n");
     HASH = Init_HashTable();
-    Inser_Hash(HASH, 81);
-    printf("The HASH[1] = %d.\n", HASH[1].list->data);
-    printf("The HASH[1] = %d.\n", HASH[1].listsize);
-    printf("The HASH[1] = %d.\n", HASH[1].length);
+    create_array(array, SIZE_TEST);
+    printArray(array, SIZE_TEST);
+
+    /* inser  */
+    printf("The Inser function test.\n");
+    for (int i = 0; i < SIZE_TEST; i++)
+        Inser_Hash(HASH, array[i]);
+    Display_Hash(HASH, SIZE);
+
+    /* remove  */
+    printf("The Remove function test.\n");
+    Remove_element(HASH, 11);
+    Display_Hash(HASH, SIZE);
+
+    /* search */
+    index = Search_element(HASH, 88);
+    if(index < 0)
+        printf("The data index is not found.\n");
+    else
+        printf("The data index is %d key %d.\n", HASH_FUNCTION(8), index);
+
+    /* free hash */
     free(HASH);
+
     return 0;
 }
 
@@ -78,23 +103,34 @@ void Inser_Hash(SET *hashtable, int data)
     index = HASH_FUNCTION(data);
     if(hashtable[index].key != index)
         return;
+
     /* dynamic allocation memory */
     if (hashtable[index].length == 0)
     {
         list = (List *)malloc(sizeof(List) * LIST_INCREMENT);
-        if(list == NULL) return;
+        if(list == NULL)
+            return;
 
         hashtable[index].length = LIST_INCREMENT;
         hashtable[index].list = list;
         list->data = data;
         hashtable[index].listsize++;
+        return;
     }
+    /* realloc allocation memory when memory is more less */
     if (hashtable[index].length == hashtable[index].listsize)
     {
-        newbase = (List *)realloc(*(&hashtable[index].list + LIST_INCREMENT),
-                                  (hashtable[index].length + LIST_INCREMENT) * sizeof(List));
-    }
+        hashtable[index].length += LIST_INCREMENT;
+        newbase = (List *)realloc(hashtable[index].list, (hashtable[index].length * sizeof(List)));
+        if(newbase == NULL)
+            return;
 
+        hashtable[index].list = newbase;
+    }
+    /*  */
+    list = hashtable[index].list + hashtable[index].listsize;
+    hashtable[index].listsize++;
+    list->data = data;
 }
 /**
  * @name Remove_element
@@ -105,7 +141,21 @@ void Inser_Hash(SET *hashtable, int data)
 */
 void Remove_element(SET *hashtable, int key)
 {
-
+    int index;
+    /* check hash table */
+    if (hashtable == NULL)
+        return;
+    /* check key is valid */
+    index = HASH_FUNCTION(key);
+    if((hashtable[index].key = index) && (hashtable[index].listsize > 0))
+    {
+        /* free memory */
+        free(hashtable[index].list);
+        hashtable[index].listsize = 0;
+        hashtable[index].length = 0;
+    }
+    else
+        printf("The key is error.\n");
 }
 
 /**
@@ -118,7 +168,23 @@ void Remove_element(SET *hashtable, int key)
 */
 int Search_element(SET *hashtable, int data)
 {
-    return 0;
+    int key;
+    /* check the hash table*/
+    if (hashtable == NULL)
+        return -1;
+
+    /* calculater key */
+    key = HASH_FUNCTION(data);
+    if((hashtable[key].key = key) && (hashtable[key].listsize > 0))
+    {
+        /* free memory */
+        for(int i = 0; i < hashtable[key].listsize; i++)
+        {
+            if((hashtable[key].list + i)->data == data)
+                return i;
+        }
+    }
+    return -1;
 }
 /**
  * @name Display_Hash
@@ -130,7 +196,14 @@ int Search_element(SET *hashtable, int data)
 void Display_Hash(SET *hashtable, int size)
 {
     for (int i = 0; i < size; i++)
-        printf("Hash table key\t%d, data\t%d.\n", hashtable[i].key, hashtable[i].list->data);
+    {
+        printf("Hash table key:\t%d, length:\t%d, listsize:\t%d.\n", hashtable[i].key, hashtable[i].length, hashtable[i].listsize);
+        for (int j = 0; j < hashtable[i].listsize; j++)
+        {
+            printf("%d  ", (hashtable[i].list + j)->data);
+        }
+        printf("\n");
+    }
 }
 /**
  * @name create_array
@@ -143,4 +216,20 @@ void create_array(int *array, int size)
 {
     for (int i = 0; i < size; i++)
         array[i] = rand() % 100;
+}
+
+/**
+ * @name printArray
+ * @brief print the elements for a array.
+ * @param[in][out] array: array to be printed.
+ * @param[in] size : the number of elements for array.
+ * @retval None.
+*/
+void printArray(int *array, int size)
+{
+    int i;
+    printf("ARRAY: ");
+    for (i = 0; i < size; i++)
+        printf("%d ", array[i]);
+    printf("\n");
 }
