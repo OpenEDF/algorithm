@@ -233,3 +233,57 @@ void printArray(int *array, int size)
         printf("%d ", array[i]);
     printf("\n");
 }
+
+/* result */
+/*
+The Initalization function test.
+ARRAY: 41 67 34 0 69 24 78 58 62 64 5 45 81 27 61 91 95 42 27 36 91 4 2 53 92 82 21 16 18 95 47 26 71 38 69 12 67 99 35 94 3 11
+22 33 73 64 41 11 53 68 47 44 62 57 37 59 23 41 29 78 16 35 90 42 88 6 40 42 64 48 46 5 90 29 70 50 6 1 93 48 29 23 84 54 56 40
+66 76 31 8 44 39 26 23 37 38 18 82 29 41
+
+The Inser function test.
+Hash table key: 0, length:      10, listsize:   7.
+0  90  40  90  70  50  40
+Hash table key: 1, length:      15, listsize:   14.
+41  81  61  91  91  21  71  11  41  11  41  1  31  41
+Hash table key: 2, length:      15, listsize:   11.
+62  42  2  92  82  12  22  62  42  42  82
+Hash table key: 3, length:      10, listsize:   9.
+53  3  33  73  53  23  93  23  23
+Hash table key: 4, length:      15, listsize:   11.
+34  24  64  4  94  64  44  64  84  54  44
+Hash table key: 5, length:      10, listsize:   7.
+5  45  95  95  35  35  5
+Hash table key: 6, length:      15, listsize:   11.
+36  16  26  16  6  46  6  56  66  76  26
+Hash table key: 7, length:      10, listsize:   9.
+67  27  27  47  67  47  57  37  37
+Hash table key: 8, length:      15, listsize:   12.
+78  58  18  38  68  78  88  48  48  8  38  18
+Hash table key: 9, length:      10, listsize:   9.
+69  69  99  59  29  29  29  39  29
+
+The Remove function test.
+Hash table key: 0, length:      10, listsize:   7.
+0  90  40  90  70  50  40
+Hash table key: 1, length:      0, listsize:    0.
+
+Hash table key: 2, length:      15, listsize:   11.
+62  42  2  92  82  12  22  62  42  42  82
+Hash table key: 3, length:      10, listsize:   9.
+53  3  33  73  53  23  93  23  23
+Hash table key: 4, length:      15, listsize:   11.
+34  24  64  4  94  64  44  64  84  54  44
+Hash table key: 5, length:      10, listsize:   7.
+5  45  95  95  35  35  5
+Hash table key: 6, length:      15, listsize:   11.
+36  16  26  16  6  46  6  56  66  76  26
+Hash table key: 7, length:      10, listsize:   9.
+67  27  27  47  67  47  57  37  37
+Hash table key: 8, length:      15, listsize:   12.
+78  58  18  38  68  78  88  48  48  8  38  18
+Hash table key: 9, length:      10, listsize:   9.
+69  69  99  59  29  29  29  39  29
+
+The data index is 8 key 6.
+*/
